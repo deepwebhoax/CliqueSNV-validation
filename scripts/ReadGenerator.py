@@ -141,7 +141,7 @@ class ReadGenerator(object):
             command = ["samtools", "index", bs]
             subprocess.call(command)
 
-            command = [("picard", "SamToFastq"),
+            command = ["picard", "SamToFastq",
                        "INPUT={}".format(bs), "FASTQ={}".format(fasta1), "SECOND_END_FASTQ={}".format(fasta2),
                        "INCLUDE_NON_PF_READS=true", "VALIDATION_STRINGENCY=SILENT"]
             subprocess.call(command)
@@ -192,6 +192,7 @@ def parse_args():
 def main():
     config = vars(parse_args())
     config["sample_fasta"] = config.pop("viral_references")
+    print(config)
     ReadGenerator(config).generate_reads()
 
 
