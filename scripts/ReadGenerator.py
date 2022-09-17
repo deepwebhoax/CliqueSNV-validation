@@ -50,7 +50,6 @@ class ReadGenerator(object):
         self.__config["sample_fasta"] = os.path.abspath(self.__config["sample_fasta"])
         if "primers_fasta" in self.__config:
             self.__config["primers_fasta"] = os.path.abspath(self.__config["primers_fasta"])
-        self.__config["picard_home"] = os.path.abspath(self.__config["picard_home"])
 
         self.__simseq_jar = os.path.join(self.__config["simseq_home"], 'SimSeqNBProject/store/SimSeq.jar')
 
@@ -142,7 +141,7 @@ class ReadGenerator(object):
             command = ["samtools", "index", bs]
             subprocess.call(command)
 
-            command = ["java", "-jar", "-Xmx2048M", os.path.join(self.__config["picard_home"], "SamToFastq.jar"),
+            command = [("picard", "SamToFastq"),
                        "INPUT={}".format(bs), "FASTQ={}".format(fasta1), "SECOND_END_FASTQ={}".format(fasta2),
                        "INCLUDE_NON_PF_READS=true", "VALIDATION_STRINGENCY=SILENT"]
             subprocess.call(command)
@@ -186,7 +185,6 @@ def parse_args():
     arg_parser.add_argument("-c", "--coverage", type=int, help="mean coverage for the sequencing experiment")
     arg_parser.add_argument("-o", "--out-dir", help="output path")
     arg_parser.add_argument("-s", "--simseq-home", help="simseq tool path")
-    arg_parser.add_argument("-p", "--picard-home", help="picard tool path")
     arg_parser.add_argument("-i", "--viral-references", help="fasta file with references for viral population")
     return arg_parser.parse_args()
 
