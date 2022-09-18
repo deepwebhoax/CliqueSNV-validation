@@ -1,6 +1,4 @@
 *.swp
-reads/
-!reads/readme
 refs/*/*.fa*.*
 .ipynb_checkpoints/
 alignment/
